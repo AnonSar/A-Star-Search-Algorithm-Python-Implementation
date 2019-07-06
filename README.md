@@ -1,2 +1,2 @@
-# A-Algorithm-Python-Implementation
-This is the A Star algorithm Python implementation
+# A-Star-Search-Algorithm-Python-Implementation
+This is the A Star Search Algorithm Python Implementation
