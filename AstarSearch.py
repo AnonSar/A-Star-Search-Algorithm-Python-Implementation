@@ -20,13 +20,14 @@ class Heap:
         return self.discovered
 
     # function for updating the cost of a node in the heap
-    def updateNodeCostInHeap(self, currentNode, FValue, sourceNode):
+    def updateNodeCostInHeap(self, currentNode, FValue, GValue, sourceNode):
 
         for node in self.discovered:
 
             if node.position == currentNode.position:
 
                 node.f = FValue
+                node.g = GValue
                 node.parent = sourceNode
                 self.heapify()
 
@@ -154,7 +155,7 @@ class Graph:
             return ([], 0)
 
         # if the source is not walkable, then return an empty path with a cost of 0
-        if self.map[sourceX][sourceY] != ".":
+        if self.map[sourceX][sourceY] != '.':
 
             print("The source is not walkable. (", self.map[sourceX][sourceY], ")")
             return ([], 0)
@@ -179,9 +180,10 @@ class Graph:
         # while the discovered heap is not empty
         while len(discovered.getHeap()) != 0:
 
-            # get the node with the smallest value from the heap and shift it to the finalised list
             smallest_value_node = discovered.minItemFromHeap()
             finalized.append(smallest_value_node)
+
+            # print(smallest_value_node.position)
 
             # we have reached the target node, then return the entire path with it's total cost
             if smallest_value_node.position == target:
@@ -215,7 +217,6 @@ class Graph:
                 if self.map[nodePositionX][nodePositionY] != ".":
 
                     continue
-
                 childNodePosition = (nodePositionX, nodePositionY)
                 childNodeParent = smallest_value_node
                 childNode = Node(childNodeParent, childNodePosition)
@@ -297,7 +298,7 @@ class Graph:
                                 discovered.addToHeap(childNode)
 
                     # if the child node isn't at the diagonal of the current node
-                    else:
+                    elif node == (1, 0) or node == (-1, 0) or node == (0, 1) or node == (0, -1):
 
                         numberOfNodes += 1
 
@@ -310,22 +311,26 @@ class Graph:
                 else:
 
                     # if the neighbouring node happens to be at the diagonal of the current node, then set the f value accordingly
-                    if childNodePosition == (1, 1) or childNodePosition == (1, -1) or childNodePosition == (-1, 1) or childNodePosition == (-1, -1):
+                    if node == (1, 1) or node == (1, -1) or node == (-1, 1) or node == (-1, -1):
 
                         childNodeCurrentGVal = childNodeParent.g + math.sqrt(2)
-                        childNodeCurrentFVal = self.heuristic(childNode, targetNode) + childNodeCurrentGVal
+                        childNodeCurrentHVal = self.heuristic(childNode, targetNode)
+                        childNodeCurrentFVal = childNodeCurrentHVal + childNodeCurrentGVal
 
                     # if the neighbouring node is not at the diagonal of the current node, then set the f value accordingly
                     else:
 
                         childNodeCurrentGVal = childNodeParent.g + 1
-                        childNodeCurrentFVal = self.heuristic(childNode, targetNode) + childNodeCurrentGVal
+                        childNodeCurrentHVal = self.heuristic(childNode, targetNode)
+                        childNodeCurrentFVal = childNodeCurrentHVal + childNodeCurrentGVal
 
-                    for nodeIndex in discovered.getHeap():
+                    heapList = discovered.getHeap()
 
-                            if nodeIndex.position == childNode.position and nodeIndex.f <= childNodeCurrentFVal:
+                    for nodeIndex in heapList:
 
-                                break
+                        if nodeIndex.position == childNode.position and nodeIndex.f <= childNodeCurrentFVal:
+
+                            break
 
                     # if we are getting a better f value for the current child node, then update that value accordingly for that node in the discovered list
                     else:
@@ -337,42 +342,49 @@ class Graph:
 
                                 if node == (1, 1) and self.map[smallest_value_node.position[0] + 1][smallest_value_node.position[1]] == ".":
 
-                                    discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, smallest_value_node)
+                                    discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, childNodeCurrentGVal, smallest_value_node)
 
                                 elif node == (-1, 1) and self.map[smallest_value_node.position[0] - 1][smallest_value_node.position[1]] == ".":
 
-                                    discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, smallest_value_node)
+                                    discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, childNodeCurrentGVal, smallest_value_node)
 
                             elif (node == (1, -1) or node == (-1, -1)) and (self.map[smallest_value_node.position[0]][smallest_value_node.position[1] - 1] == "."):
 
                                 if node == (1, -1) and self.map[smallest_value_node.position[0] + 1][smallest_value_node.position[1]] == ".":
 
-                                    discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, smallest_value_node)
+                                    discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, childNodeCurrentGVal, smallest_value_node)
 
                                 elif node == (-1, -1) and self.map[smallest_value_node.position[0] - 1][smallest_value_node.position[1]] == ".":
 
-                                    discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, smallest_value_node)
+                                    discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, childNodeCurrentGVal, smallest_value_node)
 
-                        else:
+                        elif node == (1, 0) or node == (-1, 0) or node == (0, 1) or node == (0, -1):
 
-                            discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, smallest_value_node)
+                            discovered.updateNodeCostInHeap(childNode, childNodeCurrentFVal, childNodeCurrentGVal, smallest_value_node)
 
         print("No possible path exist from the given source to given target.")
 
         return ([], 0)
 
-x = Graph()
-x.buildGraph("arena.map")
-# print(x.aStarSearch((42, 40), (3, 9)))
 
-file = open("arena.map.scen")
+x = Graph()
+x.buildGraph("arena2.map")
+# print(x.aStarSearch((36, 31), (19, 47)))
+
+file = open("arena2.map.scen")
 correct = 0
 wrong = 0
+unWalkable = 0
+testCounter = 0
+
 for item in file:
 
     item = item.split("\t")
 
     if len(item) > 2:
+
+        testCounter += 1
+        print("Test Case No. :", testCounter)
 
         item[4], item[5], item[6], item[7] = int(item[4]), int(item[5]), int(item[6]), int(item[7])
 
@@ -384,8 +396,16 @@ for item in file:
             print(successString)
             print("The coordinates are SOURCE(", item[4], ",", item[5], ") , TARGET(", item[6], ",", item[7], ")", " || The result I'm getting: [", result[1], "] The result I should be getting: [", float(item[8][:-1]), "]")
             print("The Path is: ", result[0])
-            print(result[2])
+            print("The number of nodes that have been visited are:", result[2])
             correct += 1
+            print("")
+
+        elif int(result[1]) == 0:
+
+            unWalkablePath = colored("Test Failed: ", "blue")
+            print(unWalkablePath)
+            print("The coordinates are SOURCE(", item[4], ",", item[5], ") , TARGET(", item[6], ",", item[7], ")", " || The result I'm getting: [", result[1], "] The result I should be getting: [", float(item[8][:-1]), "]")
+            unWalkable += 1
             print("")
 
         else:
@@ -395,11 +415,13 @@ for item in file:
             print("The coordinates are SOURCE(", item[4], ",", item[5], ") , TARGET(", item[6], ",", item[7], ")", " || The result I'm getting: [", result[1], "] The result I should be getting: [", float(item[8][:-1]), "]")
             print("The Path is: ", result[0])
             wrong += 1
+
             if len(result) == 3:
 
-                print(result[2])
+                print("The number of nodes that have been visited are:", result[2])
 
             print("")
 
 print("Number of correct cases: ", correct)
 print("Number of wrong cases: ", wrong)
+print("Number of not walkable source issues: ", unWalkable)
