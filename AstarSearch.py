@@ -368,10 +368,10 @@ class Graph:
 
 
 x = Graph()
-x.buildGraph("arena2.map")
+x.buildGraph("arena.map")
 # print(x.aStarSearch((36, 31), (19, 47)))
 
-file = open("arena2.map.scen")
+file = open("arena.map.scen")
 correct = 0
 wrong = 0
 unWalkable = 0
