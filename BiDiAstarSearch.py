@@ -152,85 +152,34 @@ class Graph:
     # method for getting the node with minimum value from the either direction
     def minValueNodeFromEitherDirection(self, forwardDiscovered, backwardDiscovered, forwardFinalized, backwardFinalised):
 
-        # -------- Direction with Minimum F value node ---------------------
-
-        # forwardMinItem = forwardDiscovered.rootItemAtHeap()
-        # backwardMinItem = backwardDiscovered.rootItemAtHeap()
-        #
-        # if forwardMinItem.f < backwardMinItem.f:
-        #
-        #     result = forwardDiscovered.minItemInHeap()
-        #     forwardFinalized.append(result)
-        #     return result, "forward"
-        #
-        # elif forwardMinItem.f > backwardMinItem.f:
-        #
-        #     result = backwardDiscovered.minItemInHeap()
-        #     backwardFinalised.append(result)
-        #     return result, "backward"
-        #
-        # elif forwardMinItem.f == backwardMinItem.f:
-        #
-        #     if forwardMinItem.h > backwardMinItem.h:
-        #
-        #         result = forwardDiscovered.minItemInHeap()
-        #         forwardFinalized.append(result)
-        #         return result, "forward"
-        #
-        #     else:
-        #
-        #         result = backwardDiscovered.minItemInHeap()
-        #         backwardFinalised.append(result)
-        #         return result, "backward"
-
-        # -------- Direction with Minimum F value node ---------------------
-
-        # ----------- Cardinality Criterion --------------------------------
-
-        if len(backwardDiscovered.getHeap()) < len(forwardDiscovered.getHeap()):
-
-            result = backwardDiscovered.minItemInHeap()
-            backwardFinalised.append(result)
-            return result, "backward"
-
-        elif len(backwardDiscovered.getHeap()) > len(forwardDiscovered.getHeap()):
-
+        forwardMinItem = forwardDiscovered.rootItemAtHeap()
+        backwardMinItem = backwardDiscovered.rootItemAtHeap()
+        
+        if forwardMinItem.f < backwardMinItem.f:
+        
             result = forwardDiscovered.minItemInHeap()
             forwardFinalized.append(result)
             return result, "forward"
-
-        elif len(backwardDiscovered.getHeap()) == len(forwardDiscovered.getHeap()):
-
-            forwardMinItem = forwardDiscovered.rootItemAtHeap()
-            backwardMinItem = backwardDiscovered.rootItemAtHeap()
-
-            if forwardMinItem.f < backwardMinItem.f:
-
+        
+        elif forwardMinItem.f > backwardMinItem.f:
+        
+            result = backwardDiscovered.minItemInHeap()
+            backwardFinalised.append(result)
+            return result, "backward"
+        
+        elif forwardMinItem.f == backwardMinItem.f:
+        
+            if forwardMinItem.h > backwardMinItem.h:
+        
                 result = forwardDiscovered.minItemInHeap()
                 forwardFinalized.append(result)
                 return result, "forward"
-
-            elif forwardMinItem.f > backwardMinItem.f:
-
+        
+            else:
+        
                 result = backwardDiscovered.minItemInHeap()
                 backwardFinalised.append(result)
                 return result, "backward"
-
-            elif forwardMinItem.f == backwardMinItem.f:
-
-                if forwardMinItem.h > backwardMinItem.h:
-
-                    result = forwardDiscovered.minItemInHeap()
-                    forwardFinalized.append(result)
-                    return result, "forward"
-
-                else:
-
-                    result = backwardDiscovered.minItemInHeap()
-                    backwardFinalised.append(result)
-                    return result, "backward"
-
-        # ----------- Cardinality Criterion --------------------------------
 
     def minItemFromList(self, node, givenList):
 
