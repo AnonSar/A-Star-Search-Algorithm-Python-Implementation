@@ -643,7 +643,7 @@ for item in file:
 
             successString = colored("Test Passed: ", "green")
             print(successString)
-            print("The coordinates are SOURCE(", item[4], ",", item[5], ") , TARGET(", item[6], ",", item[7], ")", " || The result I'm getting: [", result[1], "] The result I should be getting: [", float(item[8][:-1]), "]")
+            print("The coordinates are SOURCE(", item[5], ",", item[4], ") , TARGET(", item[7], ",", item[6], ")", " || The result I'm getting: [", result[1], "] The result I should be getting: [", float(item[8][:-1]), "]")
             print("The Path is: ", result[0])
             print("The number of nodes that have been visited are:", result[2])
             print("")
@@ -653,7 +653,7 @@ for item in file:
 
             unWalkablePath = colored("Test Failed: ", "blue")
             print(unWalkablePath)
-            print("The coordinates are SOURCE(", item[4], ",", item[5], ") , TARGET(", item[6], ",", item[7], ")", " || The result I'm getting: [", result[1], "] The result I should be getting: [", float(item[8][:-1]), "]")
+            print("The coordinates are SOURCE(", item[5], ",", item[4], ") , TARGET(", item[7], ",", item[6], ")", " || The result I'm getting: [", result[1], "] The result I should be getting: [", float(item[8][:-1]), "]")
             unWalkable += 1
             print("")
 
@@ -661,7 +661,7 @@ for item in file:
 
             failureString = colored("Test Failed: ", "red")
             print(failureString)
-            print("The coordinates are SOURCE(", item[4], ",", item[5], ") , TARGET(", item[6], ",", item[7], ")", " || The result I'm getting: [", result[1], "] The result I should be getting: [", float(item[8][:-1]), "]")
+            print("The coordinates are SOURCE(", item[5], ",", item[4], ") , TARGET(", item[7], ",", item[6], ")", " || The result I'm getting: [", result[1], "] The result I should be getting: [", float(item[8][:-1]), "]")
             print("The Path is: ", result[0])
             wrong += 1
             if len(result) == 3:
