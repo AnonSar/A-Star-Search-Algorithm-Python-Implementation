@@ -128,8 +128,20 @@ class Graph:
     # method for calculating the heuristic (Euclidean Distance)
     def heuristic(self, currentNode, targetNode):
 
-        return math.sqrt((currentNode.position[0] - targetNode.position[0])**2 + (currentNode.position[1] - targetNode.position[1])**2)
-        # return abs(currentNode.position[0] - targetNode.position[0]) + abs(currentNode.position[1] - targetNode.position[1])
+        # -------------Octile Heuristic----------------------------
+
+        xVal = abs(currentNode.position[0] - targetNode.position[0])
+        yVal = abs(currentNode.position[1] - targetNode.position[1])
+
+        return max(xVal, yVal) + ((math.sqrt(2)-1)*min(xVal, yVal))
+
+        # -------------Octile Heuristic----------------------------
+
+        # -------------Euclidean Heuristic-------------------------
+
+        # return math.sqrt((currentNode.position[0] - targetNode.position[0])**2 + (currentNode.position[1] - targetNode.position[1])**2)
+
+        # -------------Euclidean Heuristic-------------------------
 
     # method for implementing the a star search algorithm
     def aStarSearch(self, source, target):
