@@ -388,7 +388,7 @@ for item in file:
 
         item[4], item[5], item[6], item[7] = int(item[4]), int(item[5]), int(item[6]), int(item[7])
 
-        result = x.aStarSearch((item[4], item[5]), (item[6], item[7]))
+        result = x.aStarSearch((item[5], item[4]), (item[7], item[6]))
 
         if int(result[1]) == int(float(item[8][:-1])):
 
