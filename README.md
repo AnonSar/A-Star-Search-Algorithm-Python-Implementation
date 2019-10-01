@@ -1,14 +1,14 @@
 # Unidirectional-&-Bidirectional-A-Star-Search-Algorithm-Python-Implementation
 
-This is the Unidirectional and Bidirectional A Star Search Algorithm Python Implementation. 
+This is the Unidirectional and Bidirectional A Star Search Algorithm Python Implementation. For more info about this algorithm: https://en.wikipedia.org/wiki/A*_search_algorithm
 
-Important Details (Unidirectional A star search Algorithm):
+Important Details Regarding the Implementation (Unidirectional A star search Algorithm):
 
  1. For the heuristic, Euclidean distance/octile have been used to get an estimate from the given node to the goal node.
  
  2. In order to address the ties (nodes having the same F value in our (discovered) heap, then we prefer using that node whihc are closer to the goal node i.e. node having higher H value.)
  
- Important Details (Bidirectional A star search Algorithm):
+ Important Details Regarding the Implementation (Bidirectional A star search Algorithm):
  
   1. For the heuristic, Euclidean distance/octile have been used to get an estimate from the given node to the goal node.
   
